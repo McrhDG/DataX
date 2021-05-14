@@ -201,6 +201,11 @@ public class Engine {
     public static void main(String[] args) throws Exception {
         int exitCode = 0;
         try {
+            //设置运行的datax的家目录
+            // String projectHome = "E:\\java\\github\\DataX";
+            // System.setProperty("datax.home", projectHome + "\\target\\datax\\datax");
+            // 设置datax的运行脚本信息
+            // args = new String[]{"-mode", "standalone", "-jobid", "-1", "-job", projectHome + "\\test.json"};
             Engine.entry(args);
         } catch (Throwable e) {
             exitCode = 1;
@@ -214,7 +219,6 @@ public class Engine {
                     exitCode = tempErrorCode.toExitValue();
                 }
             }
-
             System.exit(exitCode);
         }
         System.exit(exitCode);

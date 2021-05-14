@@ -1,0 +1,94 @@
+{
+  "job": {
+	"setting": {
+	  "speed": {
+		"channel": 3
+	  },
+	  "errorLimit": {
+		"record": 0,
+		"percentage": 0.02
+	  }
+	},
+	"content": [
+	  {
+		"reader": {
+		  "name": "mysqlreader",
+		  "parameter": {
+			"username": "doctor",
+			"password": "2DAxWffECCaNa",
+			"column": [
+			  "`id`",
+			  "`parent_id`",
+			  "`article_id`",
+			  "`user_id`",
+			  "`user_type`",
+			  "`like_num`",
+			  "`unlike_num`",
+			  "`update_time`",
+			  "`create_time`",
+			  "`avatar`",
+			  "`state`",
+			  "`business_type`",
+			  "`source`",
+			  "`to_user_id`",
+			  "`to_user_type`",
+			  "`to_user_nickname`",
+			  "`reply_num`",
+			  "`nickname`",
+			  "`content`",
+			  "`delete_reason`"
+			],
+			"splitPk": "",
+			"connection": [
+			  {
+				"table": [
+				  "article_comment"
+				],
+				"jdbcUrl": [
+				  "jdbc:mysql://10.200.0.149:3306/content_domain?characterEncoding=UTF-8"
+				]
+			  }
+			]
+		  }
+		},
+		"writer": {
+		  "name": "mysqlwriter",
+		  "parameter": {
+			"username": "doctor",
+			"password": "2DAxWffECCaNa",
+			"column": [
+			  "`id`",
+			  "`parent_id`",
+			  "`article_id`",
+			  "`user_id`",
+			  "`user_type`",
+			  "`like_num`",
+			  "`unlike_num`",
+			  "`update_time`",
+			  "`create_time`",
+			  "`avatar`",
+			  "`state`",
+			  "`business_type`",
+			  "`source`",
+			  "`to_user_id`",
+			  "`to_user_type`",
+			  "`to_user_nickname`",
+			  "`reply_num`",
+			  "`nickname`",
+			  "`content`",
+			  "`delete_reason`"
+			],
+			"connection": [
+			  {
+				"table": [
+				  "article_comment_datax"
+				],
+				"jdbcUrl": "jdbc:mysql://10.200.0.149:3306/content_domain?characterEncoding=UTF-8"
+			  }
+			]
+		  }
+		}
+	  }
+	]
+  }
+}
