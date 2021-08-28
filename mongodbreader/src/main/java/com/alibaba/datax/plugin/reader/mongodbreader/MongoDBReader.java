@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.mongodb.MongoClient;
@@ -134,7 +135,9 @@ public class MongoDBReader extends Reader {
                             if (name.length > 1) {
                                 Object obj;
                                 Document nestedDocument = item;
-                                for (String str : name) {
+                                /*for (String str : name) {*/
+                                for (int i = 0; i < name.length-1; i++) {
+                                    String str = name[i];
                                     obj = nestedDocument.get(str);
                                     if (obj instanceof Document) {
                                         nestedDocument = (Document) obj;
@@ -162,18 +165,22 @@ public class MongoDBReader extends Reader {
                         record.addColumn(new LongColumn((Integer) tempCol));
                     }else if (tempCol instanceof Long) {
                         record.addColumn(new LongColumn((Long) tempCol));
-                    } else {
-                        if(KeyConstant.isArrayType(column.getString(KeyConstant.COLUMN_TYPE))) {
-                            String splitter = column.getString(KeyConstant.COLUMN_SPLITTER);
-                            if(Strings.isNullOrEmpty(splitter)) {
-                                throw DataXException.asDataXException(MongoDBReaderErrorCode.ILLEGAL_VALUE,
-                                    MongoDBReaderErrorCode.ILLEGAL_VALUE.getDescription());
-                            } else {
-                                ArrayList array = (ArrayList)tempCol;
-                                String tempArrayStr = Joiner.on(splitter).join(array);
-                                record.addColumn(new StringColumn(tempArrayStr));
-                            }
+                    } else if(KeyConstant.isArrayType(column.getString(KeyConstant.COLUMN_TYPE))) {
+                        String splitter = column.getString(KeyConstant.COLUMN_SPLITTER);
+                        if(Strings.isNullOrEmpty(splitter)) {
+                            throw DataXException.asDataXException(MongoDBReaderErrorCode.ILLEGAL_VALUE,
+                                MongoDBReaderErrorCode.ILLEGAL_VALUE.getDescription());
                         } else {
+                            ArrayList array = (ArrayList)tempCol;
+                            String tempArrayStr = Joiner.on(splitter).join(array);
+                            record.addColumn(new StringColumn(tempArrayStr));
+                        }
+                    } else if (tempCol instanceof ObjectId || tempCol instanceof CharSequence) {
+                        record.addColumn(new StringColumn(tempCol.toString()));
+                    } else {
+                        try {
+                            record.addColumn(new StringColumn(JSON.toJSONString(tempCol, SerializerFeature.WriteDateUseDateFormat)));
+                        } catch (Exception e) {
                             record.addColumn(new StringColumn(tempCol.toString()));
                         }
                     }

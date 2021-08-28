@@ -1,0 +1,6 @@
+{
+    "name": "sensorsdatareader",
+    "class": "com.wenwo.datax.plugin.reader.sensorsdatareader.SensorsdataReader",
+    "description": "useScene: prod. mechanism: Jdbc connection using the database, execute select sql, retrieve data from the ResultSet. warn: The more you know about the database, the less problems you encounter.",
+    "developer": "jftang.tang"
+}
